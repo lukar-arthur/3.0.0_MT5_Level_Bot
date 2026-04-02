@@ -1,0 +1,30 @@
+# ============================================================
+#  MT5_Level_Bot — config/config.ini.EXAMPLE
+#
+#  ШАБЛОН: скопируй как config.ini и заполни свои данные.
+#  Сам файл config.ini не коммить в git — добавь в .gitignore!
+# ============================================================
+
+[META]
+version = 2.0.0
+project = MT5_Level_Bot
+
+[MT5]
+# Полный путь к terminal64.exe вашего брокера
+terminal_path = C:\Program Files\YourBroker MT5\terminal64.exe
+# Номер торгового счёта
+login    = 68296130
+# Пароль счёта
+password = Lukar-03.24.65
+# Сервер брокера (из списка при входе в терминал)
+server   = RoboForex-Pro
+# Таймаут запросов в мс (10000 = 10 сек)
+timeout  = 10000
+
+[DATABASE]
+host     = localhost
+port     = 3306
+db_name  = mt5_level_engine
+user     = root
+# Пароль root MySQL (пустой если нет)
+password =

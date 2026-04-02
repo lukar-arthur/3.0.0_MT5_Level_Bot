@@ -1,0 +1,41 @@
+# ============================================================
+#  MT5_Level_Bot — .gitignore
+#  БЕЗОПАСНОСТЬ: файлы с реальными данными НЕ коммитятся
+# ============================================================
+
+# Конфигурация с реальными учётными данными (пароли MT5/MySQL)
+config/config.ini
+
+# Используй этот шаблон:
+# cp config/config.ini.example config/config.ini
+
+# Логи
+logs/
+*.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.suo
+*.user
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Database exports (могут содержать данные счёта)
+database/*.sql.backup
+database/*.csv
