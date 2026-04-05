@@ -5,10 +5,10 @@
 #  Plug-and-Play: использует core.config_loader вместо
 #    жёстко прописанного _CONFIG_PATH
 # ============================================================
-
 import pymysql
 import threading
 import logging
+import time
 from core.config_loader import ConfigLoader
 
 # Настройка логгера
@@ -36,12 +36,16 @@ class DatabaseConnection:
 
     def __init__(self, host=None, user=None, password=None, db=None, port=3306):
         # Инициализация конфига происходит только один раз
-        if hasattr(self, 'config'):
+        if hasattr(self, 'initialized') and self.initialized:
             return
 
         # Загрузка конфигурации
-        config = ConfigLoader().get_config()
-        
+        try:
+            config = ConfigLoader().get_config()
+        except Exception as e:
+            logger.critical(f"ConfigLoader error: {e}")
+            config = {}
+
         self.config = {
             'host': host or config.get('db_host', 'localhost'),
             'user': user or config.get('db_user', 'root'),
@@ -50,13 +54,14 @@ class DatabaseConnection:
             'port': int(port or config.get('db_port', 3306)),
             'charset': 'utf8mb4',
             'cursorclass': pymysql.cursors.DictCursor,
-            # --- КРИТИЧЕСКИ ВАЖНЫЕ ПАРАМЕТРЫ ---
+            # КРИТИЧЕСКИ ВАЖНЫЕ ПАРАМЕТРЫ
             'connect_timeout': 10,  # Таймаут на подключение (сек)
             'read_timeout': 30,     # Таймаут на чтение (сек)
             'write_timeout': 30,    # Таймаут на запись (сек)
             'autocommit': False     # Явное управление транзакциями
         }
-        logger.debug(f"Database config initialized: {self.config['host']}:{self.config['port']}")
+        self.initialized = True
+        logger.debug(f"Database config initialized for {self.config['host']}")
 
     def _get_connection(self):
         """
@@ -64,14 +69,15 @@ class DatabaseConnection:
         Если соединения нет или оно разорвано - создает новое.
         """
         # Проверяем, есть ли соединение в текущем потоке
-        if hasattr(self._thread_local, 'connection') and self._thread_local.connection:
-            conn = self._thread_local.connection
+        conn = getattr(self._thread_local, 'connection', None)
+        
+        if conn:
             # Проверяем живое ли соединение
             try:
                 conn.ping(reconnect=True)
                 return conn
-            except Exception as e:
-                logger.warning(f"Connection ping failed for thread {threading.current_thread().name}: {e}. Reconnecting...")
+            except Exception:
+                logger.warning(f"Connection lost in thread {threading.current_thread().name}. Reconnecting...")
                 self._thread_local.connection = None
 
         # Создаем новое соединение для текущего потока
@@ -103,8 +109,9 @@ class DatabaseConnection:
             return result
             
         except Exception as e:
-            conn.rollback() # Откат при ошибке
-            logger.error(f"SQL Error: {e} | Query: {query} | Params: {params}")
+            if conn:
+                conn.rollback() # Откат при ошибке
+            logger.error(f"SQL Error: {e} | Query: {query}")
             raise e
         finally:
             if cursor:
@@ -112,18 +119,6 @@ class DatabaseConnection:
 
     def disconnect(self):
         """Закрывает соединение в текущем потоке"""
-        if hasattr(self._thread_local, 'connection') and self._thread_local.connection:
+        conn = getattr(self._thread_local, 'connection', None)
+        if conn:
             try:
-                self._thread_local.connection.close()
-                logger.info(f"DB connection closed for thread: {threading.current_thread().name}")
-            except:
-                pass
-            self._thread_local.connection = None
-
-
-def get_db():
-    """
-    Функция-обертка для совместимости со старым кодом.
-    Возвращает экземпляр Singleton DatabaseConnection.
-    """
-    return DatabaseConnection()
