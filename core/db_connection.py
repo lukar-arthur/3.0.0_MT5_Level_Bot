@@ -119,3 +119,11 @@ class DatabaseConnection:
             except:
                 pass
             self._thread_local.connection = None
+
+
+def get_db():
+    """
+    Функция-обертка для совместимости со старым кодом.
+    Возвращает экземпляр Singleton DatabaseConnection.
+    """
+    return DatabaseConnection()
