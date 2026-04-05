@@ -122,3 +122,18 @@ class DatabaseConnection:
         conn = getattr(self._thread_local, 'connection', None)
         if conn:
             try:
+                conn.close()
+                logger.info(f"DB connection closed for thread: {threading.current_thread().name}")
+            except:
+                pass
+            self._thread_local.connection = None
+
+# -----------------------------------------------------------------------------
+# ФУНКЦИЯ-ОБОЛОЧКА (Необходима для совместимости с module_manager.py)
+# -----------------------------------------------------------------------------
+def get_db():
+    """
+    Возвращает экземпляр подключения (Singleton).
+    Используется устаревшим кодом: from core.db_connection import get_db
+    """
+    return DatabaseConnection()
