@@ -5,78 +5,49 @@
 #  Все проверки соединений — через GUI, не в main.py.
 #  main.py только инициализирует минимум и открывает окно.
 # ============================================================
-
 import sys
-import logging
-import time
-from core.module_manager import ModuleManager
-from core.db_connection import DatabaseConnection
-from core.config_loader import ConfigLoader
+import os
+from datetime import datetime
 
-# Настройка логирования
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.StreamHandler(sys.stdout),
-        logging.FileHandler("bot_log.log")
-    ]
-)
-logger = logging.getLogger(__name__)
+# Добавляем путь к проекту в sys.path
+sys.path.insert(0, os.path.dirname(__file__))
+
+from core.utils          import get_logger
+from core.module_manager import get_module_manager
+
+logger = get_logger("main")
+_VERSION = "3.0.0"
 
 def main():
-    logger.info("Starting MT5 Level Bot...")
+    logger.info("=" * 55)
+    logger.info(f"  MT5_Level_Bot v{_VERSION} запускается...")
+    logger.info("=" * 55)
 
     # Инициализация менеджера модулей
-    manager = ModuleManager()
-    
+    mm = get_module_manager()
+
+    # Запуск GUI
+    from gui.app import run_app
+    logger.info("Запуск GUI...")
     try:
-        # 1. Загрузка конфигурации
-        config = ConfigLoader().get_config()
-        if not config:
-            logger.critical("Config not found! Exiting.")
-            return
-
-        # 2. Проверка подключения к БД (Singleton инициируется здесь)
-        try:
-            db = DatabaseConnection()
-            # Простой тестовый запрос для проверки связи
-            # (предполагается, что execute есть, или используем _get_connection)
-            conn = db._get_connection()
-            logger.info(f"Database connection successful: {conn.get_host_info()}")
-        except Exception as e:
-            logger.critical(f"Failed to connect to Database: {e}")
-            return
-
-        # 3. Запуск всех модулей через менеджер
-        manager.load_all()
-        manager.start_all()
-
-        logger.info("Bot started successfully. Press Ctrl+C to stop.")
-
-        # Главный цикл (чтобы процесс не завершался)
-        while True:
-            time.sleep(1)
-
-    except KeyboardInterrupt:
-        logger.info("Shutdown signal received (Ctrl+C).")
-    
+        run_app(mm)
     except Exception as e:
-        logger.critical(f"Critical error in main loop: {e}", exc_info=True)
-    
+        logger.critical(f"GUI упал: {e}", exc_info=True)
     finally:
-        # ГАРАНТИРОВАННОЕ ЗАВЕРШЕНИЕ
-        logger.info("Stopping modules...")
-        manager.stop_all()
-        
-        # Закрытие соединения с БД
-        logger.info("Closing database connection...")
-        try:
-            DatabaseConnection().disconnect()
-        except:
-            pass
-        
-        logger.info("Bot stopped.")
+        _shutdown(mm)
+
+def _shutdown(mm):
+    logger.info("Завершение работы...")
+    try:
+        mm.stop_all()
+    except Exception:
+        pass
+    try:
+        from core.mt5_bridge import get_mt5_bridge
+        get_mt5_bridge().monitor.stop()
+    except Exception:
+        pass
+    logger.info(f"MT5_Level_Bot v{_VERSION} завершил работу")
 
 if __name__ == "__main__":
     main()
