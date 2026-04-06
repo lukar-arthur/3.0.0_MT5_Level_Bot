@@ -150,6 +150,14 @@ class _TransactionContext:
         cur = self._conn.cursor(dictionary=True)
         try: cur.execute(sql, params or ())
         finally: cur.close()
+    def upsert(self, table: str, insert_data: Dict[str, Any], update_data: Dict[str, Any]) -> Optional[int]:
+        sql, values = _build_upsert_sql(table, insert_data, update_data)
+        cur = self._conn.cursor(dictionary=True)
+        try:
+            cur.execute(sql, values)
+            return cur.lastrowid
+        finally:
+            cur.close()
 
 def _build_upsert_sql(table: str, insert_data: Dict[str, Any], update_data: Dict[str, Any]) -> tuple:
     cols = list(insert_data.keys())
