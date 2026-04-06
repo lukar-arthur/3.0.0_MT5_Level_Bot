@@ -168,9 +168,11 @@ def _build_upsert_sql(table: str, insert_data: Dict[str, Any], update_data: Dict
     cols = list(insert_data.keys())
     placeholders = ", ".join(["%s"] * len(cols))
     col_names = ", ".join(cols)
-    update_clause = ", ".join([f"{k} = %s" for k in update_data.keys()])
+    # Используем VALUES(col) для корректного обновления через алиасы
+    update_clause = ", ".join([f"{k} = VALUES({k})" for k in update_data.keys()])
     sql = f"INSERT INTO {table} ({col_names}) VALUES ({placeholders}) ON DUPLICATE KEY UPDATE {update_clause}"
-    values = list(insert_data.values()) + list(update_data.values())
+    # При использовании VALUES() передаем только один набор данных
+    values = list(insert_data.values())
     return sql, values
 
 _db_instance = DBConnection()
