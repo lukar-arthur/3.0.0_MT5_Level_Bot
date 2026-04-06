@@ -125,6 +125,7 @@ class DBConnection:
             ctx = _TransactionContext(conn)
             yield ctx
             conn.commit()
+            logger.debug("Transaction committed successfully")
         except Exception as e:
             if conn and conn.is_connected(): conn.rollback()
             logger.error(f"Transaction rolled back: {e}")

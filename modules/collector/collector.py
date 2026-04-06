@@ -1045,7 +1045,7 @@ class CollectorModule(BaseModule):
         except Exception as e:
             logger.warning(
                 f"Batch UPSERT {config_symbol}/{tf} откат: {e} "
-                f"— пробуем по одному"
+                f"— переход на одиночный UPSERT"
             )
             # Fallback: сохраняем по одному без транзакции
             saved = errors = 0
@@ -1063,12 +1063,13 @@ class CollectorModule(BaseModule):
                             "price_level":       lvl["price_level"],
                             "adx_value":         lvl["adx_value"],
                             "is_role_reversal":  lvl["is_role_reversal"],
+                            "rsi_value":         lvl["rsi_value"]
                         }
                     )
                     saved += 1
-                except Exception:
+                except Exception as e:
+                    logger.debug(f"Ошибка одиночного UPSERT: {e}")
                     errors += 1
-
         return saved, errors
 
     # ----------------------------------------------------------
