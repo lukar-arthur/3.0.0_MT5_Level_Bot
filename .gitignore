@@ -10,8 +10,8 @@ config/config.ini
 # cp config/config.ini.example config/config.ini
 
 # Логи
-logs/
-*.log
+# logs/
+# *.log
 
 # Python
 __pycache__/
@@ -37,5 +37,5 @@ Thumbs.db
 desktop.ini
 
 # Database exports (могут содержать данные счёта)
-database/*.sql.backup
-database/*.csv
+# database/*.sql.backup
+# database/*.csv
