@@ -148,8 +148,8 @@ class ConnectionMonitor:
             self._on_disconnected()
 
     def _on_connected(self):
-        prev_state = self.state
         with self._lock:
+            prev_state = self._state
             self._state             = ConnectionState.CONNECTED
             self._disconnected_at   = None
             self._alert_sent        = False

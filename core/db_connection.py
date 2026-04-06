@@ -52,6 +52,9 @@ class DBConnection:
                     "user": db_cfg["user"],
                     "password": db_cfg["password"],
                     "charset": "utf8mb4",
+                    "connect_timeout": 10,
+                    "get_warnings": True,
+                    "raise_on_warnings": False,
                     "use_unicode": True
                 }
                 
@@ -119,10 +122,11 @@ class DBConnection:
             if not self._initialized: self.init()
             conn = self._pool.get_connection()
             conn.autocommit = False
-            yield _TransactionContext(conn)
+            ctx = _TransactionContext(conn)
+            yield ctx
             conn.commit()
         except Exception as e:
-            if conn: conn.rollback()
+            if conn and conn.is_connected(): conn.rollback()
             logger.error(f"Transaction rolled back: {e}")
             raise
         finally:

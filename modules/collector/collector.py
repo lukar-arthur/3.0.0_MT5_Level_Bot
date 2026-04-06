@@ -1027,7 +1027,7 @@ class CollectorModule(BaseModule):
         try:
             with self._db.transaction() as tx:
                 for lvl in levels:
-                    self._db.upsert(
+                    tx.upsert(
                         table="raw_levels",
                         insert_data=lvl,
                         update_data={
