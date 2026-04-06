@@ -1244,9 +1244,9 @@ INSERT INTO `bot_logs` (`id`, `module_name`, `log_level`, `message`, `created_at
 CREATE TABLE `level_history` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `raw_level_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `price_snapshot` decimal(10,5) NOT NULL,
+  `price_snapshot` decimal(12,5) NOT NULL,
   `symbol_snapshot` varchar(20) NOT NULL,
-  `timeframe_snapshot` enum('W','D','H4','H1','M15') NOT NULL,
+  `timeframe_snapshot` enum('M1','M5','M15','M30','H1','H2','H4','D','W') NOT NULL,
   `strength_score` decimal(4,2) DEFAULT NULL,
   `bounce_count_delta` smallint(6) DEFAULT 0,
   `event_type` enum('new','bounce','break','update','deleted') NOT NULL,
