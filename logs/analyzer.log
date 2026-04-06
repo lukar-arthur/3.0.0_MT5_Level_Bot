@@ -18,3 +18,21 @@
 2026-04-06 10:37:28 UTC | analyzer     | INFO     |   EURUSD   H1    Support       1.15400     7.61  Strong        1.00  1.00  0.40 RSI=50(0.60)  1.00 D,H1,H4
 2026-04-06 10:55:58 UTC | analyzer     | INFO     | Analyzer: фоновый поток завершён
 2026-04-06 10:55:58 UTC | analyzer     | INFO     | Analyzer остановлен
+2026-04-06 12:11:36 UTC | analyzer     | INFO     | Analyzer: фоновый поток запущен
+2026-04-06 12:11:36 UTC | analyzer     | INFO     | Analyzer v2.0.0 запущен (интервал: 3600с)
+2026-04-06 12:11:36 UTC | analyzer     | INFO     | Analyzer: запуск цикла анализа...
+2026-04-06 12:11:36 UTC | analyzer     | INFO     | Analyzer: загружено 937 уровней
+2026-04-06 12:11:36 UTC | analyzer     | INFO     | Analyzer: прошли фильтр 306/937 (min_bounce=3, max_age=3д)
+2026-04-06 12:11:37 UTC | analyzer     | INFO     | Analyzer завершён: сохранено 306, ошибок 0
+2026-04-06 12:11:37 UTC | analyzer     | INFO     |   Топ-10 уровней:
+2026-04-06 12:11:37 UTC | analyzer     | INFO     |   Символ   ТФ    Напр.         Зона           S  Класс            B     F     C     M ТФ подтв.
+2026-04-06 12:11:37 UTC | analyzer     | INFO     |   EURUSD   H4    Support       1.15400     7.84  Strong        1.00  1.00  0.80 RSI=50(0.60)  1.00 D,H1,H4
+2026-04-06 12:11:37 UTC | analyzer     | INFO     |   EURUSD   H1    Support       1.15450     7.83  Strong        1.00  1.00  0.80 RSI=50(0.60)  1.00 D,H1,H4
+2026-04-06 12:11:37 UTC | analyzer     | INFO     |   EURUSD   H1    Resistance    1.15000     7.80  Strong        1.00  0.95  0.80 RSI=50(0.60)  0.87 D,H1
+2026-04-06 12:11:37 UTC | analyzer     | INFO     |   EURUSD   H4    Support       1.15450     7.69  Strong        1.00  1.00  0.80 RSI=50(0.60)  1.00 D,H1,H4
+2026-04-06 12:11:37 UTC | analyzer     | INFO     |   USDCHF   H4    Support       0.79100     7.68  Strong        1.00  0.56  0.40 RSI=50(0.60)  1.00 D,H1,H4
+2026-04-06 12:11:37 UTC | analyzer     | INFO     |   AUDUSD   H4    Support       0.68950     7.66  Strong        1.00  0.96  0.60 RSI=50(0.60)  1.00 D,H1,H4
+2026-04-06 12:11:37 UTC | analyzer     | INFO     |   AUDUSD   H4    Support       0.69000     7.66  Strong        1.00  0.96  0.60 RSI=50(0.60)  1.00 D,H1,H4
+2026-04-06 12:11:37 UTC | analyzer     | INFO     |   EURUSD   H1    Support       1.15300     7.62  Strong        1.00  0.99  0.40 RSI=50(0.60)  1.00 D,H1,H4
+2026-04-06 12:11:37 UTC | analyzer     | INFO     |   USDCHF   H4    Support       0.79950     7.60  Strong        1.00  0.98  0.60 RSI=44(0.60)  1.00 D,H1,H4
+2026-04-06 12:11:37 UTC | analyzer     | INFO     |   GBPUSD   H1    Support       1.32600     7.57  Strong        1.00  0.99  0.40 RSI=50(0.60)  1.00 D,H1,H4

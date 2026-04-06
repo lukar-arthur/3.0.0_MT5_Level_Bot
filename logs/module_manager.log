@@ -8,3 +8,9 @@
 2026-04-06 10:55:58 UTC | module_manager | INFO     | Module stopped: 'scalping'
 2026-04-06 10:55:58 UTC | module_manager | INFO     | Module stopped: 'analyzer'
 2026-04-06 10:55:59 UTC | module_manager | INFO     | Module stopped: 'collector'
+2026-04-06 12:11:22 UTC | module_manager | INFO     | Module loaded: 'collector' from D:\Documents-2025\Robo_Forex\БОТ_МОДУЛИ\3.0.0_MT5_Level_Bot\modules/collector/collector.py
+2026-04-06 12:11:22 UTC | module_manager | INFO     | Module loaded: 'analyzer' from D:\Documents-2025\Robo_Forex\БОТ_МОДУЛИ\3.0.0_MT5_Level_Bot\modules/analyzer/analyzer.py
+2026-04-06 12:11:22 UTC | module_manager | INFO     | Module loaded: 'scalping' from D:\Documents-2025\Robo_Forex\БОТ_МОДУЛИ\3.0.0_MT5_Level_Bot\modules/strategies/scalping/signal_engine.py
+2026-04-06 12:11:22 UTC | module_manager | INFO     | ModuleManager loaded: ['collector', 'analyzer', 'scalping']
+2026-04-06 12:11:35 UTC | module_manager | INFO     | Module started: 'collector'
+2026-04-06 12:11:37 UTC | module_manager | INFO     | Module started: 'analyzer'
