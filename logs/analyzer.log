@@ -36,3 +36,5 @@
 2026-04-06 12:11:37 UTC | analyzer     | INFO     |   EURUSD   H1    Support       1.15300     7.62  Strong        1.00  0.99  0.40 RSI=50(0.60)  1.00 D,H1,H4
 2026-04-06 12:11:37 UTC | analyzer     | INFO     |   USDCHF   H4    Support       0.79950     7.60  Strong        1.00  0.98  0.60 RSI=44(0.60)  1.00 D,H1,H4
 2026-04-06 12:11:37 UTC | analyzer     | INFO     |   GBPUSD   H1    Support       1.32600     7.57  Strong        1.00  0.99  0.40 RSI=50(0.60)  1.00 D,H1,H4
+2026-04-06 12:20:48 UTC | analyzer     | INFO     | Analyzer: фоновый поток завершён
+2026-04-06 12:20:48 UTC | analyzer     | INFO     | Analyzer остановлен

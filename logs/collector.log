@@ -44,3 +44,5 @@
 2026-04-06 12:11:37 UTC | collector    | INFO     |   EURGBP   H4   | баров:  700 | ATR: 0.00099 | ADX: 34.7 | уровней:  30 | skip_B0:  0 | gaps: 0 | bad_bars: 0
 2026-04-06 12:11:37 UTC | collector    | INFO     |   EURGBP   H1   | баров:  700 | ATR: 0.00045 | ADX: 36.0 | уровней:  30 | skip_B0:  0 | gaps: 0 | bad_bars: 0
 2026-04-06 12:11:37 UTC | collector    | INFO     | Collector цикл завершён за 2с: сохранено 540 уровней, ошибок 0
+2026-04-06 12:20:49 UTC | collector    | INFO     | Collector: фоновый поток завершён
+2026-04-06 12:20:49 UTC | collector    | INFO     | Collector остановлен

@@ -219,6 +219,7 @@ class MT5Bridge:
         self._lock               = threading.Lock()
         self._consecutive_errors = 0
         self._max_consecutive_errors = 3
+        self._config             = load_mt5_config()
         self.monitor             = ConnectionMonitor(self)
 
     @contextmanager
@@ -371,7 +372,7 @@ class MT5Bridge:
         except ImportError:
             raise RuntimeError("MetaTrader5 не установлен. pip install MetaTrader5")
 
-        cfg = load_mt5_config()
+        cfg = self._config
         if not cfg["password"]:
             cfg["password"] = os.environ.get("MT5_PASSWORD", "")
         kwargs = {"path": cfg["terminal_path"], "timeout": cfg["timeout"]}

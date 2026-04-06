@@ -19,3 +19,16 @@
 2026-04-06 12:11:37 UTC | db_connection | DEBUG    | Transaction committed successfully
 2026-04-06 12:11:37 UTC | db_connection | DEBUG    | Transaction committed successfully
 2026-04-06 12:11:37 UTC | db_connection | DEBUG    | Transaction committed successfully
+2026-04-06 12:21:03 UTC | db_connection | INFO     | MySQL пул запущен: root@localhost/mt5_level_engine
+2026-04-06 12:24:06 UTC | db_connection | INFO     | MySQL пул запущен: root@localhost/mt5_level_engine
+2026-04-06 12:24:06 UTC | db_connection | ERROR    | Ошибка БД: Unread result found
+2026-04-06 12:24:06 UTC | db_connection | ERROR    | Transaction rolled back: 1146 (42S02): Table 'mt5_level_engine.logs' doesn't exist
+2026-04-06 12:24:06 UTC | db_connection | ERROR    | Ошибка БД: 1146 (42S02): Table 'mt5_level_engine.logs' doesn't exist
+2026-04-06 12:24:17 UTC | db_connection | INFO     | MySQL пул запущен: root@localhost/mt5_level_engine
+2026-04-06 12:24:25 UTC | db_connection | INFO     | MySQL пул запущен: root@localhost/mt5_level_engine
+2026-04-06 12:26:11 UTC | db_connection | INFO     | MySQL пул запущен: root@localhost/mt5_level_engine
+2026-04-06 12:26:11 UTC | db_connection | ERROR    | Ошибка БД: Unread result found
+2026-04-06 12:27:13 UTC | db_connection | INFO     | MySQL пул запущен: root@localhost/mt5_level_engine
+2026-04-06 12:31:05 UTC | db_connection | INFO     | MySQL пул запущен: root@localhost/mt5_level_engine
+2026-04-06 12:31:17 UTC | db_connection | INFO     | MySQL пул запущен: root@localhost/mt5_level_engine
+2026-04-06 12:31:37 UTC | db_connection | INFO     | MySQL пул запущен: root@localhost/mt5_level_engine

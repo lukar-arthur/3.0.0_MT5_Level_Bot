@@ -14,3 +14,7 @@
 2026-04-06 12:11:22 UTC | module_manager | INFO     | ModuleManager loaded: ['collector', 'analyzer', 'scalping']
 2026-04-06 12:11:35 UTC | module_manager | INFO     | Module started: 'collector'
 2026-04-06 12:11:37 UTC | module_manager | INFO     | Module started: 'analyzer'
+2026-04-06 12:11:39 UTC | module_manager | INFO     | Module started: 'scalping'
+2026-04-06 12:20:47 UTC | module_manager | INFO     | Module stopped: 'scalping'
+2026-04-06 12:20:48 UTC | module_manager | INFO     | Module stopped: 'analyzer'
+2026-04-06 12:20:49 UTC | module_manager | INFO     | Module stopped: 'collector'

@@ -131,10 +131,25 @@ def _load_config() -> dict:
     if not timeframes:
         timeframes = ["D", "H4", "H1"]
     return {
-        "symbols":       [s.strip() for s in symbols_raw.split(",") if s.strip()],
-        "timeframes":    timeframes,
-        "bars_to_fetch": cfg.getint("COLLECTOR", "bars_to_fetch", fallback=700),
-        "interval_sec":  cfg.getint("COLLECTOR", "interval_sec",  fallback=1800),
+        "symbols":           [s.strip() for s in symbols_raw.split(",") if s.strip()],
+        "timeframes":        timeframes,
+        "bars_to_fetch":     cfg.getint("COLLECTOR", "bars_to_fetch", fallback=700),
+        "interval_sec":      cfg.getint("COLLECTOR", "interval_sec",  fallback=1800),
+        "extremum_left":     cfg.getint("COLLECTOR", "extremum_left", fallback=5),
+        "extremum_right":    cfg.getint("COLLECTOR", "extremum_right", fallback=2),
+        "min_bounce_to_record": cfg.getint("COLLECTOR", "min_bounce_to_record", fallback=1),
+        "max_levels_per_tf": cfg.getint("COLLECTOR", "max_levels_per_tf", fallback=30),
+        "atr_zone_mult_D":   cfg.getfloat("COLLECTOR", "atr_zone_mult_D", fallback=0.10),
+        "atr_zone_mult_H4":  cfg.getfloat("COLLECTOR", "atr_zone_mult_H4", fallback=0.15),
+        "atr_zone_mult_H1":  cfg.getfloat("COLLECTOR", "atr_zone_mult_H1", fallback=0.25),
+        "atr_zone_mult_M15": cfg.getfloat("COLLECTOR", "atr_zone_mult_M15", fallback=0.35),
+        "atr_zone_mult_M5":  cfg.getfloat("COLLECTOR", "atr_zone_mult_M5", fallback=0.50),
+        "atr_zone_mult_M1":  cfg.getfloat("COLLECTOR", "atr_zone_mult_M1", fallback=0.50),
+        "rates_retry_count": cfg.getint("COLLECTOR", "rates_retry_count", fallback=3),
+        "rates_retry_delay": cfg.getfloat("COLLECTOR", "rates_retry_delay", fallback=2.5),
+        "conn_retry_count":  cfg.getint("COLLECTOR", "conn_retry_count", fallback=2),
+        "conn_retry_delay":  cfg.getfloat("COLLECTOR", "conn_retry_delay", fallback=5.0),
+        "cycle_max_fraction": cfg.getfloat("COLLECTOR", "cycle_max_fraction", fallback=0.80),
     }
 
 
@@ -587,7 +602,8 @@ def _normalize_bar_time(bar_time: datetime, timeframe: str) -> datetime:
 # Основной алгоритм определения уровней
 # ------------------------------------------------------------------
 
-def find_levels(rates: list, symbol: str, timeframe: str) -> dict:
+def find_levels(rates: list, symbol: str, timeframe: str, 
+                atr_zone_mults: Dict[str, float] = None) -> dict:
     """
     Найти уровни Support и Resistance из OHLCV баров.
 
@@ -653,7 +669,10 @@ def find_levels(rates: list, symbol: str, timeframe: str) -> dict:
 
     # Вычисляем ATR и ADX один раз для всего набора баров
     atr      = calc_atr(valid_rates, atr_period)
-    mult_z   = ATR_ZONE_MULT.get(tf_upper, ATR_ZONE_MULT_DEFAULT)
+    if atr_zone_mults:
+        mult_z = atr_zone_mults.get(tf_upper, ATR_ZONE_MULT_DEFAULT)
+    else:
+        mult_z = ATR_ZONE_MULT.get(tf_upper, ATR_ZONE_MULT_DEFAULT)
     atr_zone = atr * mult_z
     avg_vol  = _avg_volume(valid_rates)
     adx_val  = calc_adx(valid_rates, period=14)   # Этап 6: реальный ADX
@@ -999,8 +1018,15 @@ class CollectorModule(BaseModule):
         # Запоминаем время последнего бара (V-6)
         self._last_bar[f"{config_symbol}/{tf}"] = rates[-1]["time"]
 
+        # Извлекаем ATR множители из конфигурации
+        atr_mults = {}
+        for key, value in self._cfg.items():
+            if key.startswith('atr_zone_mult_'):
+                tf_key = key.replace('atr_zone_mult_', '')
+                atr_mults[tf_key] = value
+
         # Нормализуем символ обратно для записи в БД
-        result = find_levels(rates, config_symbol, tf)
+        result = find_levels(rates, config_symbol, tf, atr_mults)
         levels = result["levels"]
         stats  = result["stats"]
 
