@@ -11,7 +11,7 @@ project = MT5_Level_Bot
 
 [MT5]
 # Полный путь к terminal64.exe вашего брокера
-terminal_path = C:\Program Files\YourBroker MT5\terminal64.exe
+terminal_path = C:\Program Files\RoboForex MT5 Terminal\terminal64.exe
 # Номер торгового счёта
 login    = 68296130
 # Пароль счёта
